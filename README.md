@@ -1,7 +1,10 @@
-Random maze generator
+# Random maze generator
 
-More information:
+Generates uniform random mazes using Wilson's algorithm
+([pdf](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.47.8598&rep=rep1&type=pdf)).
 
-  - https://www.astrolog.org/labyrnth/algrithm.htm
-  - https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.47.8598
+## Examples
 
+![Rectangular maze](examples/rectangular-15x15.png)
+
+![Hexagonal maze](examples/hexagonal-5.png)
