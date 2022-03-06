@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Maze generator</title>
+  <link href="mazes.css" rel="stylesheet">
+</head>
+<body>
+<h1>Maze generator</h1>
+
+<h2>Parameters</h2>
+<form id="parameters-form">
+  <div class="parameter">
+    <label>
+      <div class="label">Type:</div>
+      <select name="type">
+        <!-- populated dynamically based on registered maze types-->
+      </select>
+    </label>
+  </div>
+  <div id="type-specific-parameters">
+    <!-- populated dynamically based on selected type -->
+  </div>
+  <div>
+    <div class="label"></div>
+    <button>Generate</button>
+  </div>
+</form>
+
+<h2>Maze</h2>
+<div>
+  <canvas id="maze-canvas" width="100" height="100"></canvas>
+</div>
+
+<!-- Include all JavaScript code. Note: ordering matters here! -->
+<script src="common.js"></script>
+<script src="rectangular.js"></script>
+<script src="hexagonal.js"></script>
+<script src="wilson.js"></script>
+<script src="mazes.js"></script>
+
+</body>
+</html>

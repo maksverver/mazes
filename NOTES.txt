@@ -1,0 +1,7 @@
+Ideas:
+  - hex: different rendering style?
+  - expose rendering settings (thickness, scale, etc)
+  - also generate entry/exit at random?
+  - weave mazes? (how?)
+  - onedirectional edges? (note: this requires updating Wilson's algorithm)
+  - SVG instead of Canvas rendering? Facilitates further editing e.g in inkscape.
