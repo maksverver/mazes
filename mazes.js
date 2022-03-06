@@ -48,6 +48,7 @@ function onTypeChanged() {
     input.value = parameter.defaultValue;
     input.min = parameter.minValue;
     input.max = parameter.maxValue;
+    input.required = true;
     label.appendChild(input);
     typeSpecificParameters.appendChild(parameterDiv);
   }
