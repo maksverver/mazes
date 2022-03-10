@@ -47,11 +47,11 @@ function generateUniformSpanningTree(allEdges) {
   included[root] = true;
 
   // Connect each vertex to the tree through a random path.
-  for (var v of Object.keys(adj)) {
+  for (const v of Object.keys(adj)) {
     // Random walk starting from `v` until we hit the spanning tree.
-    for (var w = v; !included[w]; w = next[w]) next[w] = selectRandom(adj[w]);
+    for (let w = v; !included[w]; w = next[w]) next[w] = selectRandom(adj[w]);
     // Add cycle-erased path from v to the tree.
-    for (var w = v; !included[w]; w = next[w]) included[w] = true;
+    for (let w = v; !included[w]; w = next[w]) included[w] = true;
   }
 
   // Partition edge list.

@@ -18,7 +18,7 @@ const DIRS = [[-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0]];
 // (representing walls around the maze) are added to this list.
 function generateEdgesImpl(radius, innerEdges, outerEdges) {
   const seen = {};
-  var fringe = [];
+  let fringe = [];
   function addToFringe(v) {
     if (!seen[v]) {
       seen[v] = true;
@@ -26,7 +26,7 @@ function generateEdgesImpl(radius, innerEdges, outerEdges) {
     }
   }
   addToFringe(encodeVertex(radius, 0, 0));
-  for (var dist = 0; dist < radius; ++dist) {
+  for (let dist = 0; dist < radius; ++dist) {
     const todo = fringe;
     fringe = [];
     for (const v of todo) {
