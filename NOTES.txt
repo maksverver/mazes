@@ -5,3 +5,13 @@ Ideas:
   - weave mazes? (how?)
   - onedirectional edges? (note: this requires updating Wilson's algorithm)
   - SVG instead of Canvas rendering? Facilitates further editing e.g in inkscape.
+
+To update demo on Github pages:
+
+git checkout build
+git merge master
+BUILD_PATH=docs npm run build
+git add docs/
+git commit
+git push
+git checkout master
