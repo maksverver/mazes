@@ -1,12 +1,10 @@
 // Implements the rectangular maze type.
 
-'use strict';
+import {type Edge, type MazeDescription, MazeDefinition} from './maze-defs';
 
-(function(){
-
-function generateEdges(mazeDesc) {
+function generateEdges(mazeDesc: MazeDescription): Edge[] {
   const {height, width} = mazeDesc;
-  const walls = [];
+  const walls: Edge[] = [];
   for (let r = 0; r < height; ++r) {
     for (let c = 0; c < width; ++c) {
     if (r + 1 < height) walls.push([r*width + c, (r + 1)*width + c]);
@@ -16,20 +14,25 @@ function generateEdges(mazeDesc) {
   return walls;
 }
 
-function drawMaze(canvas, mazeDesc, walls, passages) {
+function drawMaze(
+    canvas: HTMLCanvasElement,
+    mazeDesc: MazeDescription,
+    walls: Edge[],
+    passages: Edge[],
+): void {
   const {height, width} = mazeDesc;
   const scale = 16;
   const thickness = 4;
   const padding = 10;
 
-  function decodeVertex(v) {
+  function decodeVertex(v: number) {
     const c = v % width;
     return [(v - c)/width, c];
   }
 
   canvas.width  = width*scale  + 2*padding;
   canvas.height = height*scale + 2*padding;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d')!;
 
   ctx.lineWidth = thickness / scale;
   ctx.lineJoin = 'round';
@@ -41,11 +44,11 @@ function drawMaze(canvas, mazeDesc, walls, passages) {
   for (const [v, w] of walls) {
     const [r1, c1] = decodeVertex(v);
     const [r2, c2] = decodeVertex(w);
-    if (r1 == r2) {
-    ctx.moveTo(c1 + 1, r1);
+    if (r1 === r2) {
+      ctx.moveTo(c1 + 1, r1);
     } else {
-    console.assert(c1 == c2);
-    ctx.moveTo(c1, r1 + 1);
+      console.assert(c1 === c2);
+      ctx.moveTo(c1, r1 + 1);
     }
     ctx.lineTo(c1 + 1, r1 + 1);
   }
@@ -57,7 +60,7 @@ function drawMaze(canvas, mazeDesc, walls, passages) {
   ctx.stroke();
 }
 
-registerMazeType('rectangular', {
+const mazeDefinition: MazeDefinition = {
   label: 'Rectangular',
   parameters: {
     width: {
@@ -75,6 +78,6 @@ registerMazeType('rectangular', {
   },
   generateEdges,
   drawMaze,
-});
+};
 
-}());
+export default mazeDefinition;

@@ -1,24 +1,28 @@
 // Implements maze generation using Wilson's algorithm.
 
-'use strict';
+import {type Edge, type Vertex} from './maze-defs';
 
 // Selects a uniform random element from the given array.
-function selectRandom(array) {
-  return array[Math.floor(Math.random() * array.length)];
+function selectRandom<T>(a: ArrayLike<T>): T {
+  return a[Math.floor(Math.random() * a.length)];
 }
 
 // Generates adjacency lists from the given bidirectional edge list.
 //
-// The result is an object where each key is a vertex id, and each value is a
-// list of adjacent vertex ids. For example:
+// The result is a map from source vertex to adjacent vertex ids.
+// For example:
 //
 //   calculateAdjacencyLists([[1, 2], [2, 3]]) == {1: [2], 2: [1, 3], 3: [2]}
 //
-function calculateAdjacencyLists(edges) {
-  const adj = {};
-  function addDirectedEdge(v, w) {
-    if (!adj[v]) adj[v] = [];
-    adj[v].push(w);
+function calculateAdjacencyLists(edges: Edge[]): Map<Vertex, readonly Vertex[]> {
+  const adj = new Map<Vertex, Vertex[]>();
+  function addDirectedEdge(v: Vertex, w: Vertex) {
+    var ws = adj.get(v);
+    if (ws === undefined) {
+      ws = [];
+      adj.set(v, ws);
+    }
+    ws.push(w);
   }
   for (const [v, w] of edges) {
     addDirectedEdge(v, w);
@@ -37,21 +41,21 @@ function calculateAdjacencyLists(edges) {
 //   2. A list of edges that are included in the spanning tree (i.e., the
 //      passages in the maze).
 //
-function generateUniformSpanningTree(allEdges) {
+export function generateUniformSpanningTree(allEdges: Edge[]) {
   const adj = calculateAdjacencyLists(allEdges);
-  const next = {};
-  const included = {};
+  const next = new Map<Vertex, Vertex>();
+  const included = new Set<Vertex>();
 
   // Start with a random root vertex.
-  const root = selectRandom(Object.keys(adj));
-  included[root] = true;
+  const root = selectRandom(Array.from(adj.keys()));
+  included.add(root);
 
   // Connect each vertex to the tree through a random path.
-  for (const v of Object.keys(adj)) {
+  for (const v of adj.keys()) {
     // Random walk starting from `v` until we hit the spanning tree.
-    for (let w = v; !included[w]; w = next[w]) next[w] = selectRandom(adj[w]);
+    for (let w = v; !included.has(w); w = next.get(w)!) next.set(w, selectRandom(adj.get(w)!));
     // Add cycle-erased path from v to the tree.
-    for (let w = v; !included[w]; w = next[w]) included[w] = true;
+    for (let w = v; !included.has(w); w = next.get(w)!) included.add(w);
   }
 
   // Partition edge list.
@@ -59,7 +63,7 @@ function generateUniformSpanningTree(allEdges) {
   const treeEdges = [];
   for (const edge of allEdges) {
     const [v, w] = edge;
-    if (next[v] == w || next[w] == v) {
+    if (next.get(v) === w || next.get(w) === v) {
       treeEdges.push(edge);
     } else {
       unusedEdges.push(edge);
