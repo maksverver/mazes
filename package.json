@@ -40,8 +40,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "canvas": "^2.9.0"
-  },
   "homepage": "./"
 }
